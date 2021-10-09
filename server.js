@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { MONGODB_URI, PORT } = process.env;
+const { MONGODB_URI, PORT} = process.env;
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,7 +10,8 @@ const infoRoutes = require('./routes/info.routes');
 const userAuthMiddleware = require('./middlewares/userAuth.middleware');
 
 //----------------------------------DB Connection-------------------------------------
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(
+    "mongodb+srv://ofirzuker:o123456@ls-project.hjlto.mongodb.net/test?authSource=admin&replicaSet=atlas-26h35g-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
