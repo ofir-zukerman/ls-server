@@ -1,6 +1,9 @@
 {
   "name": "ls-server",
   "version": "1.0.0",
+  "engines": {
+    "npm": "8.x"
+  },
   "description": "",
   "main": "server.js",
   "scripts": {
