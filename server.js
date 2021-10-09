@@ -10,8 +10,7 @@ const infoRoutes = require('./routes/info.routes');
 const userAuthMiddleware = require('./middlewares/userAuth.middleware');
 
 //----------------------------------DB Connection-------------------------------------
-mongoose.connect(
-    "mongodb+srv://ofirzuker:o123456@ls-project.hjlto.mongodb.net/test?authSource=admin&replicaSet=atlas-26h35g-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true", {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
