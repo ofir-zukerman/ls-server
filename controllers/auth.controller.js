@@ -1,60 +1,60 @@
-const userService = require('../services/users.service');
-const validationService = require('../services/validation.service');
-const jwt = require('jsonwebtoken');
-
+const userService = require("../services/users.service");
+const validationService = require("../services/validation.service");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-    try {
-        const { data } = req.body;
-        console.log({data});
-        const error = validationService.isCreateValid(data);
-        console.log({session:1, error})
+  try {
+    const { data } = req.body;
 
-        if (error) throw new Error(error.message);
+    const error = validationService.isCreateValid(data);
 
-        let isExists = await userService.findUserByEmail(data.email);
-        if (isExists) throw new Error("Email already exists");
+    if (error) throw new Error(error.message);
 
-        const newUser = await userService.register(data);
+    let isExists = await userService.findUserByEmail(data.email);
+    if (isExists) throw new Error("Email already exists");
 
-        // generate token
-        let token = jwt.sign({
-            data: { _id: newUser._id },
-        }, process.env.SECRET_JWT_KEY, { expiresIn: '7d' });
+    const newUser = await userService.register(data);
 
-        return res.json({ token, _id: newUser._id });
+    // generate token
+    let token = jwt.sign(
+      {
+        data: { _id: newUser._id },
+      },
+      process.env.SECRET_JWT_KEY,
+      { expiresIn: "7d" }
+    );
 
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
-
-
+    return res.json({ token, _id: newUser._id });
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
 
 const signin = async (req, res) => {
-    try {
-        const { data } = req.body;
-        const user = await userService.signin(data);
+  try {
+    const { data } = req.body;
+    const user = await userService.signin(data);
 
-        if (!user) throw new Error("User Not Exists");
+    if (!user) throw new Error("User Not Exists");
 
-        let token = jwt.sign({
-            data: { _id: user._id },
-        }, process.env.SECRET_JWT_KEY, { expiresIn: '7d' });
+    let token = jwt.sign(
+      {
+        data: { _id: user._id },
+      },
+      process.env.SECRET_JWT_KEY,
+      { expiresIn: "7d" }
+    );
 
-        const { password, ...restOfUserData } = user;
-        restOfUserData.token = token;
+    const { password, ...restOfUserData } = user;
+    restOfUserData.token = token;
 
-        return res.json(restOfUserData);
-    } catch (err) {
-        res.status(400).send(err.message);
-    }
-}
-
-
+    return res.json(restOfUserData);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
 
 module.exports = {
-    register,
-    signin,
-    
-}
+  register,
+  signin,
+};
