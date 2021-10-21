@@ -1,4 +1,5 @@
 const Employee = require("../models/employee");
+const { v4: uuidv4 } = require("uuid");
 
 const findEmployeByEmail = async (email) =>
   await Employee.findOne({ email }).lean().exec();
@@ -18,15 +19,22 @@ const getAllEmployees = async () => {
 
     return filterEmployees;
   } catch (err) {
-    throw err;
+    // throw err;
   }
 };
 
 const createEmployee = async (employeeData) => {
   try {
     const newEmployee = new Employee(employeeData);
-    await newEmployee.save();
-    return employeeData;
+    if (!newEmployee.id) {
+      newEmployee.startDate = new Date().toDateString();
+      newEmployee.id = uuidv4();
+      await newEmployee.save();
+    } else {
+      await Employee.findOneAndUpdate({ id: employeeData.id }, employeeData);
+    }
+    // await newEmployee.save();
+    return newEmployee;
   } catch (err) {
     throw new Error(`Employee Not created, ${err.message}`);
   }

@@ -19,6 +19,7 @@ const addEmployee = async (req, res) => {
 };
 
 const deleteEmployee = async (req, res) => {
+  console.log(req.body);
   const { data: employeeId } = req.body;
   const deletedEmployee = await employeesService.deleteEmployee(employeeId);
 

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Employee = mongoose.model(
   "employees",
   new mongoose.Schema({
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     phone: { type: String, required: true, unique: true },
